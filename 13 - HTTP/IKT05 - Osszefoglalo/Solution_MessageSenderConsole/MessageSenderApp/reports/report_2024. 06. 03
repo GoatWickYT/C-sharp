@@ -1,0 +1,12 @@
+[
+  {
+    "Errors": [
+      {
+        "Reason": "Sikertelen uzenet kuldes",
+        "Count": 10
+      }
+    ],
+    "SuccessCount": 90,
+    "Date": "2024-06-03T14:25:28.9381199+02:00"
+  }
+]

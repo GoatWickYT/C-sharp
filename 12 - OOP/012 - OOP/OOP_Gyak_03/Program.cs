@@ -1,0 +1,1 @@
+﻿Kepregeny.Main("szereplok.txt");

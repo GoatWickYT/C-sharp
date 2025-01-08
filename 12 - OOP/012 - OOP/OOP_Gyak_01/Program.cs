@@ -1,0 +1,1 @@
+﻿await Pekseg.Main("vasarlok.txt");

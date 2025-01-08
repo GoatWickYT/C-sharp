@@ -1,0 +1,1 @@
+﻿Orszagut.Main("jarmuvek.txt");

@@ -1,0 +1,4 @@
+Robogo;"";40;60
+AudiS8;"AAA-111";200;true
+Robogo;"";80;65
+AudiS8;"AAA-112";130;false

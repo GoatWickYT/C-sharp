@@ -1,0 +1,1 @@
+﻿Hazmester.Karbantart("lakasok.txt");
