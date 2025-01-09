@@ -31,7 +31,7 @@ public partial class MainPageViewModel : MovieModel
 		ErrorOr<MovieModel> serviceResponse = await movieService.CreateAsync(this);
 
 		string alertMessage = serviceResponse.IsError ? serviceResponse.FirstError.Description : "Movie saved!";
-    await Application.Current!.MainPage!.DisplayAlert("Alert", alertMessage, "OK");
+		await Application.Current!.MainPage!.DisplayAlert("Alert", alertMessage, "OK");
   }
 
 	private bool IsFormValid => Title.IsValid &&

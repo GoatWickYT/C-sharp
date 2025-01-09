@@ -10,7 +10,7 @@ public class BookModel
 
     public ValidatableObject<string> Title { get; set; }
 
-    public ValidatableObject<uint> PublishDate { get; set; }
+    public ValidatableObject<uint> PublishYear { get; set; }
 
     public ValidatableObject<string> Publisher { get; set; }
 
@@ -19,7 +19,7 @@ public class BookModel
         this.ISBN = new ValidatableObject<ulong>();
         this.Author = new ValidatableObject<string>();
         this.Title = new ValidatableObject<string>();
-        this.PublishDate = new ValidatableObject<uint>();
+        this.PublishYear = new ValidatableObject<uint>();
         this.Publisher = new ValidatableObject<string>();
 
         AddValidators();
@@ -31,7 +31,7 @@ public class BookModel
         ISBN.Value = entity.ISBN;
         Author.Value = entity.Author;
         Title.Value = entity.Title;
-        PublishDate.Value = entity.PublishYear;
+        PublishYear.Value = entity.PublishYear;
         Publisher.Value = entity.Publisher;
     }
 
@@ -43,7 +43,7 @@ public class BookModel
             ISBN = ISBN.Value,
             Author = Author.Value,
             Title = Title.Value,
-            PublishYear = PublishDate.Value,
+            PublishYear = PublishYear.Value,
             Publisher = Publisher.Value
         };
     }
@@ -54,17 +54,25 @@ public class BookModel
         entity.ISBN = ISBN.Value;
         entity.Author = Author.Value;
         entity.Title = Title.Value;
-        entity.PublishYear = PublishDate.Value;
+        entity.PublishYear = PublishYear.Value;
         entity.Publisher = Publisher.Value;
     }
 
     private void AddValidators()
     {
         ISBN.Validations.Add(new IsNotNullOrEmptyRule<ulong> { ValidationMessage = "ISBN is required." });
-        ISBN.Validations.Add(new ISBNRule<ulong> { ValidationMessage = "ISBN must be between 10 and 13 characters."});
+        ISBN.Validations.Add(new NullableLongRule<ulong> { ValidationMessage = "ISBN must be a number." });
+        ISBN.Validations.Add(new ISBNRule<ulong> { ValidationMessage = "ISBN must be between 11 and 13 characters."});
+
         Author.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Author is required." });
+
         Title.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Title is required." });
-        PublishDate.Validations.Add(new IsNotNullOrEmptyRule<uint> { ValidationMessage = "Publish date is required." });
+
+        PublishYear.Validations.Add(new IsNotNullOrEmptyRule<uint> { ValidationMessage = "Publish year is required." });
+        PublishYear.Validations.Add(new NullableIntegerRule<uint> { ValidationMessage = "Publish year must be a number." });
+        PublishYear.Validations.Add(new MinValueRule<uint>(1) { ValidationMessage = "Publish year must be greater than 1."});
+        PublishYear.Validations.Add(new MaxValueRule<uint>(DateTime.Now.Year) { ValidationMessage = $"Publish year must be less than or equal to the current year. {DateTime.Now.Year}" });
+
         Publisher.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Publisher is required." });
     }
 }

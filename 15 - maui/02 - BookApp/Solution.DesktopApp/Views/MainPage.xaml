@@ -18,45 +18,60 @@
                 HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
                 Margin="50,0,50,0">
         <Label Text="Book data" HorizontalOptions="Center"
-               Style="{x:StaticResource PageLabel}"/>
+               Style="{x:StaticResource PageLabelStyle}"/>
         <StackLayout>
-            <Label Text="ISBN" Style="{x:StaticResource InputLabel}" />
+            <Label Text="ISBN" Style="{x:StaticResource InputLabelStyle}" />
             <Entry Text="{Binding ISBN.Value}">
                 <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ISBNValue}" />
+                    <behaviors:EntryLongBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ISBNValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-
-            <Label Text="Author" Style="{x:StaticResource InputLabel}"/>
+            <Label Text="{Binding ISBN.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Author" Style="{x:StaticResource InputLabelStyle}"/>
             <Entry Text="{Binding Author.Value}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding AuthorValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-
-            <Label Text="Title" Style="{x:StaticResource InputLabel}"/>
+            <Label Text="{Binding Author.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Title" Style="{x:StaticResource InputLabelStyle}"/>
             <Entry Text="{Binding Title.Value}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding TitleValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-
-            <Label Text="PublishYear" Style="{x:StaticResource InputLabel}"/>
+            <Label Text="{Binding Title.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="PublishYear" Style="{x:StaticResource InputLabelStyle}"/>
             <Entry Text="{Binding PublishYear.Value}">
                 <Entry.Behaviors>
+                    <behaviors:EntryIntegerBehavior />
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding PublishYearValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-
-            <Label Text="Publisher" Style="{x:StaticResource InputLabel}"/>
+            <Label Text="{Binding PublishYear.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Publisher" Style="{x:StaticResource InputLabelStyle}"/>
             <Entry Text="{Binding Publisher.Value}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding PublisherValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-            
-            <Button Text="Submit" Command="{Binding OnSubmitCommand}" />
+            <Label Text="{Binding Publisher.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
         </StackLayout>
+        <Button Text="Submit" Command="{Binding OnSubmitCommand}" Style="{x:StaticResource ButtonStyle}"/>
     </FlexLayout>
 
 </ContentPage>

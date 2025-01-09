@@ -15,3 +15,4 @@ global using ErrorOr;
 global using CommunityToolkit.Maui.Alerts;
 global using CommunityToolkit.Maui.Core;
 global using System.Runtime.InteropServices;
+global using Solution.Core;
