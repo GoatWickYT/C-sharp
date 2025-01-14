@@ -2,5 +2,5 @@
 
 public interface IBookService
 {
-    Task<ErrorOr<BookModel>> CreateAsync(BookModel movie);
+    Task<ErrorOr<BookModel>> CreateAsync(BookModel book);
 }

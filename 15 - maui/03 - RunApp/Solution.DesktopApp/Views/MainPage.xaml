@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModel="clr-namespace:Solution.DesktopApp.ViewModels"
+             xmlns:behaviors="clr-namespace:Solution.DesktopApp.Behaviors"
+             xmlns:converters="clr-namespace:Solution.ValidationLibrary.Converters;assembly=Solution.ValidationLibrary"
+             x:DataType="viewModel:MainPageViewModel"
+             x:Class="Solution.DesktopApp.MainPage">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <FlexLayout Direction="Column"
+                HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                Margin="50,0,50,0">
+        <Label Text="Új futás rögzítése" HorizontalOptions="Center"
+               Style="{x:StaticResource PageLabelStyle}"/>
+        <StackLayout>
+            <Label Text="Time (in minutes)" Style="{x:StaticResource InputLabelStyle}" />
+            <Entry Text="{Binding Time.Value}">
+                <Entry.Behaviors>
+                    <behaviors:EntryIntegerBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding TimeValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding Time.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Distance (in kilometers)" Style="{x:StaticResource InputLabelStyle}" />
+            <Entry Text="{Binding Distance.Value}">
+                <Entry.Behaviors>
+                    <behaviors:EntryIntegerBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding DistanceValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding Distance.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <StackLayout>
+            <Label Text="Burned calories (in kcal)" Style="{x:StaticResource InputLabelStyle}" />
+            <Entry Text="{Binding BurnedCalories.Value}">
+                <Entry.Behaviors>
+                    <behaviors:EntryDoubleBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding BurnedCaloriesValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding BurnedCalories.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </StackLayout>
+        <Button Text="Submit" Command="{Binding OnSubmitCommand}" Style="{x:StaticResource ButtonStyle}"/>
+    </FlexLayout>
+
+</ContentPage>
