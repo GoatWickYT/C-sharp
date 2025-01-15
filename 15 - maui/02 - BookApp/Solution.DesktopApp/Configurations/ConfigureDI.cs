@@ -6,6 +6,8 @@ public static class ConfigureDI
 	{
 		builder.Services.AddTransient<MainPageViewModel>();
 
-		return builder;
+		builder.Services.AddTransient<IBookService, BookService>();
+
+        return builder;
 	}
 }

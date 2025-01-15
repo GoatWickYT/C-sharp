@@ -11,7 +11,7 @@ using Solution.DataBase;
 namespace Solution.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250108082700_init")]
+    [Migration("20250115071404_init")]
     partial class init
     {
         /// <inheritdoc />

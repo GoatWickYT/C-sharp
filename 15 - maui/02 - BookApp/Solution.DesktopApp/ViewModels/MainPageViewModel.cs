@@ -13,6 +13,11 @@ public partial class MainPageViewModel : BookModel
 
     private readonly IBookService bookService;
 
+    public MainPageViewModel(IBookService bookService) : base()
+    {
+        this.bookService = bookService;
+    }
+
     private bool IsFormValid => ISBN.IsValid &&
                                 Author.IsValid &&
                                 Title.IsValid &&
@@ -23,6 +28,7 @@ public partial class MainPageViewModel : BookModel
     {
         if (!IsFormValid)
         {
+            await Application.Current!.MainPage.DisplayAlert("Alert", "All fields must be filled", "Ok");
             return;
         }
 

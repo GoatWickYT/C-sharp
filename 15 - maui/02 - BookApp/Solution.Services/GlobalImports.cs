@@ -7,3 +7,4 @@ global using Solution.Core.Interfaces;
 global using ErrorOr;
 global using Solution.Core.Models;
 global using Solution.DataBase;
+global using Microsoft.EntityFrameworkCore;

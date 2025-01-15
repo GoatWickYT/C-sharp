@@ -1,54 +1,12 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\wittn\\OneDrive\\Desktop\\Projects\\C-sharp\\15 - maui\\03 - RunApp\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{542885BE-10AA-472C-AECC-AF68FFD90A2D}|Solution.DesktopApp\\Solution.DesktopApp.csproj|c:\\users\\wittn\\onedrive\\desktop\\projects\\c-sharp\\15 - maui\\03 - runapp\\solution.desktopapp\\resources\\styles\\appstyles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{542885BE-10AA-472C-AECC-AF68FFD90A2D}|Solution.DesktopApp\\Solution.DesktopApp.csproj|solutionrelative:solution.desktopapp\\resources\\styles\\appstyles.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{542885BE-10AA-472C-AECC-AF68FFD90A2D}|Solution.DesktopApp\\Solution.DesktopApp.csproj|c:\\users\\wittn\\onedrive\\desktop\\projects\\c-sharp\\15 - maui\\03 - runapp\\solution.desktopapp\\views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{542885BE-10AA-472C-AECC-AF68FFD90A2D}|Solution.DesktopApp\\Solution.DesktopApp.csproj|solutionrelative:solution.desktopapp\\views\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    }
-  ],
+  "WorkspaceRootPath": "C:\\Users\\b1witatt\\Desktop\\C-sharp\\15 - maui\\03 - RunApp\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainPage.xaml",
-              "DocumentMoniker": "C:\\Users\\wittn\\OneDrive\\Desktop\\Projects\\C-sharp\\15 - maui\\03 - RunApp\\Solution.DesktopApp\\Views\\MainPage.xaml",
-              "RelativeDocumentMoniker": "Solution.DesktopApp\\Views\\MainPage.xaml",
-              "ToolTip": "C:\\Users\\wittn\\OneDrive\\Desktop\\Projects\\C-sharp\\15 - maui\\03 - RunApp\\Solution.DesktopApp\\Views\\MainPage.xaml",
-              "RelativeToolTip": "Solution.DesktopApp\\Views\\MainPage.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-14T17:42:20.717Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AppStyles.xaml",
-              "DocumentMoniker": "C:\\Users\\wittn\\OneDrive\\Desktop\\Projects\\C-sharp\\15 - maui\\03 - RunApp\\Solution.DesktopApp\\Resources\\Styles\\AppStyles.xaml",
-              "RelativeDocumentMoniker": "Solution.DesktopApp\\Resources\\Styles\\AppStyles.xaml",
-              "ToolTip": "C:\\Users\\wittn\\OneDrive\\Desktop\\Projects\\C-sharp\\15 - maui\\03 - RunApp\\Solution.DesktopApp\\Resources\\Styles\\AppStyles.xaml",
-              "RelativeToolTip": "Solution.DesktopApp\\Resources\\Styles\\AppStyles.xaml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-01-14T17:42:08.147Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

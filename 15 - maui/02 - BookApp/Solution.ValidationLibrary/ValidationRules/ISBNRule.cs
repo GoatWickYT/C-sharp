@@ -10,7 +10,7 @@ public class ISBNRule<T> : IValidationRule<T>
         {
             return false;
         }
-        if (data.ToString().Length != 11 && data.ToString().Length != 13)
+        if (data.ToString().Length != 10 && data.ToString().Length != 13)
         {
             return false;
         }
