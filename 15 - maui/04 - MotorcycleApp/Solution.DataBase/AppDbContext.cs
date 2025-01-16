@@ -1,8 +1,11 @@
 ﻿namespace Solution.DataBase;
 
-public class AppDbContext() : DbContext
+public class AppDbContext() : DbContext()
 {
-	private static string connectionString = string.Empty;
+	public DbSet<MotorcycleEntity> Motorcycles { get; set; }
+    public DbSet<ManufacturerEntity> Manufacturers { get; set; }
+
+    private static string connectionString = string.Empty;
 
 	static AppDbContext()
 	{

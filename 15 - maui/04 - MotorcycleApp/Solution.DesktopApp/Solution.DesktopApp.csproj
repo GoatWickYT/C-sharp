@@ -99,13 +99,4 @@
 	  <ProjectReference Include="..\Solution.ValidationLibrary\Solution.ValidationLibrary.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="appSettings.Development.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="appSettings.Production.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 </Project>
