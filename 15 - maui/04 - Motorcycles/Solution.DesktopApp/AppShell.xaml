@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Solution.DesktopApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Solution.DesktopApp"
+    xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
+    x:DataType="viewModels:AppShellViewModel"
+    Shell.FlyoutBehavior="Disabled"
+    Title="Motorcycle Database">
+
+  <Shell.MenuBarItems>
+    <MenuBarItem Text="File">
+      <MenuFlyoutItem Text="Exit" Command="{Binding ExitCommand}" />
+    </MenuBarItem>
+
+    <MenuBarItem Text="Motocycle">
+      <MenuFlyoutItem Text="Add New" Command="{Binding AddNewMotorcycleCommand}">
+        <MenuFlyoutItem.IconImageSource>
+          <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>
+        </MenuFlyoutItem.IconImageSource>
+      </MenuFlyoutItem>
+      
+      <MenuFlyoutItem Text="List All" Command="{Binding ListAllMotorcyclesCommand}">
+        <MenuFlyoutItem.IconImageSource>
+          <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black" />
+        </MenuFlyoutItem.IconImageSource>
+      </MenuFlyoutItem>
+    </MenuBarItem>
+  </Shell.MenuBarItems>
+
+    <ShellContent
+        ContentTemplate="{DataTemplate local:MainView}"
+        Route="MainView" />
+
+</Shell>
