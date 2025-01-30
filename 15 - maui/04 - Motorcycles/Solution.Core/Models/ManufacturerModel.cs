@@ -18,6 +18,10 @@ public class ManufacturerModel : IObjectValidator<uint>
 
     public ManufacturerModel(ManufacturerEntity entity)
     {
+        if (entity is null)
+        {
+            return;
+        }
         Id = entity.Id;
         Name = entity.Name;
     }

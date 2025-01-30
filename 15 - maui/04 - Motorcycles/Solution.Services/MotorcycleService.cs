@@ -1,37 +1,89 @@
-﻿using ErrorOr;
-using Microsoft.EntityFrameworkCore;
-using Solution.Core.Interfaces;
-using Solution.Core.Models;
-using Solution.Database.Entities;
-using Solution.DataBase;
-using System.ComponentModel;
-
-namespace Solution.Services;
+﻿namespace Solution.Services;
 
 public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
 {
-    public async Task<ErrorOr<MotorcycleModel>> CreateAsync(MotorcycleModel motorcycle)
+    private int ROW_COUNT = 25;
+
+    public async Task<ErrorOr<MotorcycleModel>> CreateAsync(MotorcycleModel model)
     {
-        MotorcycleEntity motorcycleEntity = motorcycle.ToEntity();
-        var motorcycles = await dbContext.Motorcycles.ToListAsync();
+        bool exists = await dbContext.Motorcycles.AnyAsync(m => m.Model.ToLower() == model.Model.Value.ToLower().Trim() &&
+                                           m.ManufacturerId == model.Manufacturer.Value.Id &&
+                                           m.ReleaseYear == model.ReleaseYear.Value);
 
-        if (motorcycle.Model.Value == null ||
-            motorcycle.Cubic.Value == null ||
-            motorcycle.Manufacturer == null ||
-            motorcycle.CylindersNumber == null)
+        if (exists)
         {
-            return Error.Conflict(description: "Model, Cubic, Manufacturer and Cylinders are required");
+            return Error.Conflict(description: "Motorcycle already exists");
         }
 
-        if (motorcycles.Any(m => m.Model == motorcycle.Model.Value &&
-                                 m.Cubic == motorcycle.Cubic.Value &&
-                                 m.Manufacturer.Id == motorcycle.Manufacturer.Value.Id &&
-                                 m.Cylinders == motorcycle.CylindersNumber.Value))
-        {
-            return Error.Conflict(description: "Model already exists");
-        }
-        await dbContext.Motorcycles.AddAsync(motorcycleEntity);
+        var motorcycle = model.ToEntity();
+
+        motorcycle.PublicId = Guid.NewGuid().ToString();
+
+        await dbContext.Motorcycles.AddAsync(motorcycle);
         await dbContext.SaveChangesAsync();
-        return new MotorcycleModel(motorcycleEntity);
+
+        return new MotorcycleModel(motorcycle)
+        {
+            Manufacturer = model.Manufacturer
+        };
     }
+
+    public async Task<ErrorOr<MotorcycleModel>> UpdateAsync(MotorcycleModel model)
+    {
+        var motorcycle = await dbContext.Motorcycles.Include(x => x.Manufacturer)
+                                                    .FirstOrDefaultAsync(x => x.PublicId == model.Id);
+
+        if (motorcycle is null)
+        {
+            return Error.NotFound(description: "Motorcycle not found");
+        }
+        model.ToEntity(motorcycle);
+
+        await dbContext.SaveChangesAsync();
+
+        return new MotorcycleModel(motorcycle);
+    }
+
+    public async Task<ErrorOr<Success>> DeleteAsync(string id)
+    {
+        var motorcycle = await dbContext.Motorcycles.Include(x => x.Manufacturer)
+                                    .FirstOrDefaultAsync(x => x.PublicId == id);
+
+        if (motorcycle is null)
+        {
+            return Error.NotFound(description: "Motorcycle not found");
+        }
+
+        dbContext.Motorcycles.Remove(motorcycle);
+        await dbContext.SaveChangesAsync();
+
+        return Result.Success;
+    }
+
+    public async Task<ErrorOr<MotorcycleModel>> GetByIdAsync(string id)
+    {
+        var motorcycle = await dbContext.Motorcycles.Include(x => x.Manufacturer)
+                                            .FirstOrDefaultAsync(x => x.PublicId == id);
+
+        if (motorcycle is null)
+        {
+            return Error.NotFound(description: "Motorcycle not found");
+        }
+
+        return new MotorcycleModel(motorcycle);
+    }
+
+    public async Task<ErrorOr<List<MotorcycleModel>>> GetAllAsync() => 
+        await dbContext.Motorcycles.AsNoTracking()
+                           .Include(x => x.Manufacturer)
+                           .Select(x => new MotorcycleModel(x))
+                           .ToListAsync();
+
+    public async Task<ErrorOr<List<MotorcycleModel>>> GetPagedAsync(int page = 0) =>
+        await dbContext.Motorcycles.AsNoTracking()
+                           .Include(x => x.Manufacturer)
+                           .Skip(page * ROW_COUNT)
+                           .Take(ROW_COUNT)
+                           .Select(x => new MotorcycleModel(x))
+                           .ToListAsync();
 }

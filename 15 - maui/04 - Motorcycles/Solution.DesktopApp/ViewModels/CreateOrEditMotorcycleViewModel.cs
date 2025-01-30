@@ -1,13 +1,19 @@
-﻿using ErrorOr;
-using Solution.Core.Interfaces;
-
-namespace Solution.DesktopApp.ViewModels;
+﻿namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
-public partial class CreateOrEditMotorcycleViewModel(AppDbContext dbContext) : MotorcycleModel
+public partial class CreateOrEditMotorcycleViewModel(
+    AppDbContext dbContext,
+    IMotorcycleService motorcycleService/*,
+    IGoogleDriveService googleDriveService*/) : MotorcycleModel()
 {
+    #region life cycle commands
+
     public IAsyncRelayCommand AppearingCommand => new AsyncRelayCommand(OnAppearingkAsync);
     public IAsyncRelayCommand DisappearingCommand => new AsyncRelayCommand(OnDisappearingAsync);
+
+    #endregion
+
+    #region validation commands
 
     public IRelayCommand CubicValidationCommand => new RelayCommand(() => this.Cubic.Validate());
     public IRelayCommand ReleaseYearValidationCommand => new RelayCommand(() => this.ReleaseYear.Validate());
@@ -17,18 +23,18 @@ public partial class CreateOrEditMotorcycleViewModel(AppDbContext dbContext) : M
     public IRelayCommand CylinderIndexChangedCommand => new RelayCommand(() => this.CylindersNumber.Validate());
     public IAsyncRelayCommand SaveCommand => new AsyncRelayCommand(OnSaveAsync);
 
+    #endregion
+
     [ObservableProperty]
     private ICollection<ManufacturerModel> manufacturers;
 
     [ObservableProperty]
     private IList<uint> cylinders = [1, 2, 3, 4, 6, 8];
 
-    private readonly IMotorcycleService motorcycleService;
-
     private async Task OnAppearingkAsync()
     {
         Manufacturers = await dbContext.Manufacturers.AsNoTracking()
-                                                        .OrderBy(x => x.Name)
+                                                     .OrderBy(x => x.Name)
                                                      .Select(x => new ManufacturerModel(x))
                                                      .ToListAsync();
     }
@@ -46,7 +52,23 @@ public partial class CreateOrEditMotorcycleViewModel(AppDbContext dbContext) : M
 
         ErrorOr<MotorcycleModel> serviceResponse = await motorcycleService.CreateAsync(this);
         string alertMessage = serviceResponse.IsError ? serviceResponse.FirstError.Description : "Motorcycle saved!";
-        await Application.Current!.MainPage.DisplayAlert("Alert", alertMessage, "Ok");
+        string title = serviceResponse.IsError ? "Error" : "Success";
+
+        if (!serviceResponse.IsError)
+        {
+            ClearForm();
+        }
+
+        await Application.Current!.MainPage.DisplayAlert(title, alertMessage, "Ok");
+    }
+
+    private void ClearForm()
+    {
+        this.Manufacturer.Value = null;
+        this.Model.Value = string.Empty;
+        this.Cubic.Value = null;
+        this.ReleaseYear.Value = null;
+        this.CylindersNumber.Value = null;
     }
 
     private bool IsFormValid()
