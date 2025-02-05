@@ -28,36 +28,29 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
         };
     }
 
-    public async Task<ErrorOr<MotorcycleModel>> UpdateAsync(MotorcycleModel model)
+    public async Task<ErrorOr<Success>> UpdateAsync(MotorcycleModel model)
     {
-        var motorcycle = await dbContext.Motorcycles.Include(x => x.Manufacturer)
-                                                    .FirstOrDefaultAsync(x => x.PublicId == model.Id);
+        var result = await dbContext.Motorcycles.AsNoTracking()
+                                                .Include(x => x.Manufacturer)
+                                                .Where(x => x.PublicId == model.Id)
+                                                .ExecuteUpdateAsync(x => x.SetProperty(p => p.PublicId, model.Id)
+                                                                          .SetProperty(p => p.ManufacturerId, model.Manufacturer.Value.Id)
+                                                                          .SetProperty(p => p.Model, model.Model.Value)
+                                                                          .SetProperty(p => p.Cubic, model.Cubic.Value)
+                                                                          .SetProperty(p => p.ReleaseYear, model.ReleaseYear.Value)
+                                                                          .SetProperty(p => p.Cylinders, model.CylindersNumber.Value));
 
-        if (motorcycle is null)
-        {
-            return Error.NotFound(description: "Motorcycle not found");
-        }
-        model.ToEntity(motorcycle);
-
-        await dbContext.SaveChangesAsync();
-
-        return new MotorcycleModel(motorcycle);
+        return result > 0 ? Result.Success : Error.NotFound();
     }
 
     public async Task<ErrorOr<Success>> DeleteAsync(string id)
     {
-        var motorcycle = await dbContext.Motorcycles.Include(x => x.Manufacturer)
-                                    .FirstOrDefaultAsync(x => x.PublicId == id);
+        var result = await dbContext.Motorcycles.AsNoTracking()
+                                                .Include(x => x.Manufacturer)
+                                                .Where(x => x.PublicId == id)
+                                                .ExecuteDeleteAsync();
 
-        if (motorcycle is null)
-        {
-            return Error.NotFound(description: "Motorcycle not found");
-        }
-
-        dbContext.Motorcycles.Remove(motorcycle);
-        await dbContext.SaveChangesAsync();
-
-        return Result.Success;
+        return result > 0 ? Result.Success : Error.NotFound();
     }
 
     public async Task<ErrorOr<MotorcycleModel>> GetByIdAsync(string id)
@@ -79,11 +72,15 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
                            .Select(x => new MotorcycleModel(x))
                            .ToListAsync();
 
-    public async Task<ErrorOr<List<MotorcycleModel>>> GetPagedAsync(int page = 0) =>
-        await dbContext.Motorcycles.AsNoTracking()
+    public async Task<ErrorOr<List<MotorcycleModel>>> GetPagedAsync(int page = 0)
+    {
+        page = page < 0 ? 0 : page - 1;
+
+        return await dbContext.Motorcycles.AsNoTracking()
                            .Include(x => x.Manufacturer)
                            .Skip(page * ROW_COUNT)
                            .Take(ROW_COUNT)
                            .Select(x => new MotorcycleModel(x))
                            .ToListAsync();
+    }
 }

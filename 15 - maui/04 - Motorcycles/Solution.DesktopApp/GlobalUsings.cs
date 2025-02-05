@@ -17,3 +17,4 @@ global using CommunityToolkit.Mvvm.Input;
 global using Solution.Core.Interfaces;
 global using Solution.Services;
 global using ErrorOr;
+global using System.Collections.ObjectModel;

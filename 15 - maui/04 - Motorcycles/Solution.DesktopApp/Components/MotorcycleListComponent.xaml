@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Solution.DesktopApp.Components.MotorcycleListComponent"
+             x:Name="this">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Stroke="Black" StrokeThickness="2">
+            <Label 
+                   Text="{Binding Motorcycle.Manufacturer.Value.Name , Source={x:Reference this}}"
+                   HorizontalTextAlignment="End"/>
+        </Border>
+        <Border Grid.Column="1" Stroke="Black" StrokeThickness="2">
+            <Label 
+               Text="{Binding Motorcycle.Model.Value , Source={x:Reference this}}"
+               HorizontalTextAlignment="End"/>
+        </Border>
+        <Border Grid.Column="2" Stroke="Black" StrokeThickness="2">
+            <Label
+               Text="{Binding Motorcycle.ReleaseYear.Value , Source={x:Reference this}}"
+               HorizontalTextAlignment="End"/>
+        </Border>
+        <Border Grid.Column="3" Stroke="Black" StrokeThickness="2">
+            <Label
+               Text="{Binding Motorcycle.Cubic.Value , Source={x:Reference this}}"
+               HorizontalTextAlignment="End"/>
+        </Border>
+        <Border Grid.Column="4" Stroke="Black" StrokeThickness="2">
+            <Label
+               Text="{Binding Motorcycle.CylindersNumber.Value , Source={x:Reference this}}"
+               HorizontalTextAlignment="End"/>
+        </Border>
+
+    </Grid>
+</ContentView>

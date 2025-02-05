@@ -1,11 +1,69 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Solution.DesktopApp.Views.MotorcycleListView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Motorcycle list"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
+             xmlns:models="clr-namespace:Solution.Core.Models;assembly=Solution.Core"
+             xmlns:components="clr-namespace:Solution.DesktopApp.Components"
+             x:Class="Solution.DesktopApp.Views.MotorcycleListView"
+             x:DataType="viewModels:MotorcycleListViewModel">
+    
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
+        <toolkit:EventToCommandBehavior Command="{Binding DisappearingCommand}" EventName="Disappearing" />
+    </ContentPage.Behaviors>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Row="0">
+            <Button Text="Update" HorizontalOptions="End"/>
+        </StackLayout>
+        
+        <Label Text="MOTORCYCLES"
+               Grid.Row="0"
+               Style="{StaticResource PageTitle}"/>
+
+        <ScrollView Grid.Row="1">
+            <CollectionView ItemsSource="{Binding Motorcycles}" Margin="50, 0">
+                <CollectionView.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Text="Manufacturer"
+                               Style="{StaticResource HeaderTitle}"/>
+                        <Label Grid.Column="1"
+                               Text="Model"
+                               Style="{StaticResource HeaderTitle}"/>
+                        <Label Grid.Column="2"
+                               Text="ReleaseYear"
+                               Style="{StaticResource HeaderTitle}"/>
+                        <Label Grid.Column="3"
+                               Text="Cubic"
+                               Style="{StaticResource HeaderTitle}"/>
+                        <Label Grid.Column="4"
+                               Text="Cylinders"
+                               Style="{StaticResource HeaderTitle}"/>
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:MotorcycleModel">
+                        <components:MotorcycleListComponent Motorcycle="{Binding .}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
 </ContentPage>
