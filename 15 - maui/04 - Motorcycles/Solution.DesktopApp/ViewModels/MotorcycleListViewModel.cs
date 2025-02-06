@@ -11,6 +11,7 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
 
     #endregion
 
+
     [ObservableProperty]
     private ObservableCollection<MotorcycleModel> motorcycles;
 

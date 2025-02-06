@@ -36,9 +36,33 @@
         <Setter Property="TextColor" Value="Black" />
     </Style>
 
-    <Style x:Key="HeaderTitle" TargetType="Label">
-        <Setter Property="HorizontalTextAlignment" Value="End" />
-        <Setter Property="FontSize" Value="16" />
+    <Style x:Key="TableHeaderTitle" TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Dark=WhiteSmoke, Light=Black}" />
+        <Setter Property="VerticalOptions" Value="Center" />
     </Style>
 
+    <Style x:Key="TableDataText" TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style x:Key="TableData" TargetType="Border">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Margin" Value="30,0"/>
+    </Style>
+
+    <Style x:Key="TableHeader" TargetType="Border">
+        <Setter Property="Stroke" Value="Black" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Margin" Value="10,0"/>
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark=Black, Light=WhiteSmoke}" />
+    </Style>
+    
 </ResourceDictionary>

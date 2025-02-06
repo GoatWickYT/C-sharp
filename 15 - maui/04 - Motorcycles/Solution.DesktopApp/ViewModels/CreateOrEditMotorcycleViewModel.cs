@@ -4,7 +4,7 @@
 public partial class CreateOrEditMotorcycleViewModel(
     AppDbContext dbContext,
     IMotorcycleService motorcycleService/*,
-    IGoogleDriveService googleDriveService*/) : MotorcycleModel()
+    IGoogleDriveService googleDriveService*/) : MotorcycleModel(), IQueryAttributable
 {
     #region life cycle commands
 
@@ -33,10 +33,7 @@ public partial class CreateOrEditMotorcycleViewModel(
 
     private async Task OnAppearingAsync()
     {
-        Manufacturers = await dbContext.Manufacturers.AsNoTracking()
-                                                     .OrderBy(x => x.Name)
-                                                     .Select(x => new ManufacturerModel(x))
-                                                     .ToListAsync();
+        await LoadManufacturers();
     }
 
     private async Task OnDisappearingAsync()
@@ -84,5 +81,36 @@ public partial class CreateOrEditMotorcycleViewModel(
                this.Cubic.IsValid &&
                this.ReleaseYear.IsValid &&
                this.CylindersNumber.IsValid;
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        await LoadManufacturers();
+
+        MotorcycleModel motorcycle = query["Motorcycle"] as MotorcycleModel;
+
+        if(motorcycle is null)
+        {
+            await Application.Current.MainPage.DisplayAlert("Error", "Motorcycle can't be found or edited", "Ok");
+            return;
+        }
+
+        this.Manufacturer.Value = motorcycle.Manufacturer.Value;
+        this.Model.Value = motorcycle.Model.Value;
+        this.Cubic.Value = motorcycle.Cubic.Value;
+        this.ReleaseYear.Value = motorcycle.ReleaseYear.Value;
+        this.CylindersNumber.Value = motorcycle.CylindersNumber.Value;
+    }
+
+    private async Task LoadManufacturers()
+    {
+        if (Manufacturers is not null)
+        {
+            return;
+        }
+        Manufacturers = await dbContext.Manufacturers.AsNoTracking()
+                                                     .OrderBy(x => x.Name)
+                                                     .Select(x => new ManufacturerModel(x))
+                                                     .ToListAsync();
     }
 }
