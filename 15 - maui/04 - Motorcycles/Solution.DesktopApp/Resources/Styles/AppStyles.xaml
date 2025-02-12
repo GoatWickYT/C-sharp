@@ -29,13 +29,6 @@
         <Setter Property="Margin" Value="0,10,0,0" />
     </Style>
 
-    <Style x:Key="PageTitle" TargetType="Label">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="TextColor" Value="Black" />
-    </Style>
-
     <Style x:Key="TableHeaderTitle" TargetType="Label">
         <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="FontSize" Value="20" />
@@ -64,5 +57,29 @@
         <Setter Property="Margin" Value="10,0"/>
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark=Black, Light=WhiteSmoke}" />
     </Style>
-    
+
+    <Style x:Key="InputLabel" TargetType="Label">
+        <Setter Property="Margin" Value="0,5,0,5" />
+    </Style>
+
+    <Style x:Key="FormLineContainer" TargetType="VerticalStackLayout">
+        <Setter Property="Margin" Value="50,0,50,20" />
+    </Style>
+
+    <Style x:Key="MenuBarItem" TargetType="MenuFlyoutItem">
+        <Setter Property="Text" Value="Red" />
+    </Style>
+
+    <Style x:Key="ContentPage" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="Black"/>
+    </Style>
+
+    <Style x:Key="PageTitle" TargetType="Label">
+        <Setter Property="HorizontalOptions" Value="Center"></Setter>
+        <Setter Property="TextColor" Value="{AppThemeBinding Light=Black, Dark=WhiteSmoke}" />
+        <Setter Property="Margin" Value="0,10,0,20" />
+        <Setter Property="FontSize" Value="Title" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
 </ResourceDictionary>

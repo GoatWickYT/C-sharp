@@ -16,7 +16,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Label Text="MOTORCYCLES"
@@ -65,6 +65,26 @@
                         <components:MotorcycleListComponent Motorcycle="{Binding .}" />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <FlexLayout AlignContent="SpaceEvenly" 
+                                Direction="Row"
+                                JustifyContent="SpaceBetween"
+                                Margin="30,0">                                
+                        <Button Text="Previous"
+                                IsEnabled="{Binding PreviousButtonEnabled}"
+                                Command="{Binding PreviousPageCommand}"
+                                Style="{StaticResource MenuBarItem}"
+                                Padding="10"/>
+                        <Label Text="{Binding PageNumber}"
+                               HorizontalTextAlignment="Center"/>
+                        <Button Text="Next"
+                                IsEnabled="{Binding NextButtonEnabled}"
+                                Command="{Binding NextPageCommand}"
+                                Style="{StaticResource MenuBarItem}"
+                                Padding="10"/>      
+
+                    </FlexLayout>
+                </CollectionView.Footer>
             </CollectionView>
         </ScrollView>
     </Grid>

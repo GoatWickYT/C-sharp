@@ -25,4 +25,11 @@ public class ManufacturerModel : IObjectValidator<uint>
         Id = entity.Id;
         Name = entity.Name;
     }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is ManufacturerModel model &&
+               this.Id == model.Id &&
+               this.Name == model.Name;
+    }
 }

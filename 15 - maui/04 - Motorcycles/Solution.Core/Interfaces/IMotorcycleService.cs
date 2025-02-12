@@ -9,4 +9,5 @@ public interface IMotorcycleService
     Task<ErrorOr<MotorcycleModel>> GetByIdAsync(string id);
     Task<ErrorOr<List<MotorcycleModel>>> GetAllAsync();
     Task<ErrorOr<List<MotorcycleModel>>> GetPagedAsync(int page = 0);
+    Task<int> GetMaxPageNumberAsync();
 }

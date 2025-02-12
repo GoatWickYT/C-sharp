@@ -2,7 +2,7 @@
 
 public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
 {
-    private int ROW_COUNT = 25;
+    private int ROW_COUNT = 5;
 
     public async Task<ErrorOr<MotorcycleModel>> CreateAsync(MotorcycleModel model)
     {
@@ -82,5 +82,12 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
                            .Take(ROW_COUNT)
                            .Select(x => new MotorcycleModel(x))
                            .ToListAsync();
+    }
+
+    public Task<int> GetMaxPageNumberAsync()
+    {
+        return dbContext.Motorcycles.AsNoTracking()
+                           .CountAsync()
+                           .ContinueWith(t => (int)Math.Ceiling(t.Result / (double)ROW_COUNT));
     }
 }

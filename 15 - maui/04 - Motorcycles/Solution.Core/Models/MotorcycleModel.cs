@@ -90,7 +90,7 @@ public partial class MotorcycleModel
             },
             new MaxValueRule<uint?>(DateTime.Now.Year)
             {
-                ValidationMessage = "Cubic field cant be greater then the current year"
+                ValidationMessage = "Release Year cant be greater then the current year"
             }
         ]);
 
