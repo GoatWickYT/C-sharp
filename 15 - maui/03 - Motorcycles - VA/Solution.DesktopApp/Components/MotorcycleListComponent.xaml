@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Solution.DesktopApp.Components.MotorcycleListComponent"
+             x:Name="this">
+    <Border Padding="0,10,0,10">
+        <Grid Padding="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Text="{Binding Motorcycle.Manufacturer.Value.Name, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="1"
+                   Text="{Binding Motorcycle.Model.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="2"
+                   Text="{Binding Motorcycle.ReleaseYear.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+            <Label Grid.Column="3"
+                   Text="{Binding Motorcycle.NumberOfCylinders.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="End" />
+            <Label Grid.Column="4"
+                   Text="{Binding Motorcycle.Cubic.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+            <ImageButton Grid.Column="5"
+                         Source="edit.png"
+                         Command="{Binding EditCommand, Source={x:Reference this}}"
+                         HorizontalOptions="End" VerticalOptions="Center" 
+                         BackgroundColor="Transparent"
+                         WidthRequest="25" HeightRequest="25"/>
+        </Grid>
+    </Border>
+
+</ContentView>

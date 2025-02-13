@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModel="clr-namespace:Solution.DesktopApp.ViewModels"
+             x:DataType="viewModel:MainViewModel"
+             x:Class="Solution.DesktopApp.MainView"
+             BackgroundColor="Black">
+
+    <Grid VerticalOptions="Center" HorizontalOptions="Center">
+        <Label Text="Motorcycle Data Base"
+               TextColor="WhiteSmoke" FontSize="Title" FontAttributes="Bold" 
+               HorizontalTextAlignment="Center" 
+               Margin="0,20,0,20"/>
+        <Image Source="motorcycle.png" Aspect="AspectFit" Margin="100"/>
+    </Grid>
+
+</ContentPage>

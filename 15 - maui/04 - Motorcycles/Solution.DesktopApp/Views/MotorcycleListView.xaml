@@ -69,19 +69,32 @@
                     <FlexLayout AlignContent="SpaceEvenly" 
                                 Direction="Row"
                                 JustifyContent="SpaceBetween"
-                                Margin="30,0">                                
-                        <Button Text="Previous"
-                                IsEnabled="{Binding PreviousButtonEnabled}"
-                                Command="{Binding PreviousPageCommand}"
+                                Margin="30">
+                        <Button Text="First"
+                                IsEnabled="{Binding FirstButtonEnabled}"
+                                Command="{Binding FirstPageCommand}"
                                 Style="{StaticResource MenuBarItem}"
                                 Padding="10"/>
-                        <Label Text="{Binding PageNumber}"
-                               HorizontalTextAlignment="Center"/>
-                        <Button Text="Next"
-                                IsEnabled="{Binding NextButtonEnabled}"
-                                Command="{Binding NextPageCommand}"
+                        <HorizontalStackLayout>
+                            <Button Text="Previous"
+                                    IsEnabled="{Binding PreviousButtonEnabled}"
+                                    Command="{Binding PreviousPageCommand}"
+                                    Style="{StaticResource MenuBarItem}"
+                                    Padding="10"/>
+                            <Label Text="{Binding PageNumber}"
+                                   Margin="20,0"
+                                   HorizontalTextAlignment="Center"/>
+                            <Button Text="Next"
+                                    IsEnabled="{Binding NextButtonEnabled}"
+                                    Command="{Binding NextPageCommand}"
+                                    Style="{StaticResource MenuBarItem}"
+                                    Padding="10"/>
+                        </HorizontalStackLayout>
+                        <Button Text="Last"
+                                IsEnabled="{Binding LastButtonEnabled}"
+                                Command="{Binding LastPageCommand}"
                                 Style="{StaticResource MenuBarItem}"
-                                Padding="10"/>      
+                                Padding="10"/>
 
                     </FlexLayout>
                 </CollectionView.Footer>

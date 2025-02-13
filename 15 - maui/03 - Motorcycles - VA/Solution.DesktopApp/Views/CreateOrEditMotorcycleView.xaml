@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
+             xmlns:models="clr-namespace:Solution.Core.Models;assembly=Solution.Core"
+             xmlns:converters="clr-namespace:Solution.ValidationLibrary.Converters;assembly=Solution.ValidationLibrary"
+             xmlns:behaviors="clr-namespace:Solution.DesktopApp.Behaviors"
+             x:Class="Solution.DesktopApp.Views.CreateOrEditMotorcycleView"
+             x:DataType="viewModels:CreateOrEditMotorcycleViewModel">
+  
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
+        <toolkit:EventToCommandBehavior Command="{Binding DisappearingCommand}" EventName="Disappearing" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <StackLayout Orientation="Vertical">
+
+        <Label Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Manufacturer"></Label>
+            <Picker ItemsSource="{Binding Manufacturers}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding Manufacturer.Value}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                    Command="{Binding ManufacturerIndexChangedCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+            <Label Text="{Binding Manufacturer.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Model" Style="{StaticResource InputLabel}"/>
+            <Entry Text="{Binding Model.Value}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ModelValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding Model.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Cubic" Style="{StaticResource InputLabel}" />
+            <Entry Text="{Binding Cubic.Value}">
+                <Entry.Behaviors>
+                    <behaviors:EntryIntegerBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding CubicValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding Cubic.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Release Year" Style="{StaticResource InputLabel}" />
+            <Entry Text="{Binding ReleaseYear.Value}">
+                <Entry.Behaviors>
+                    <behaviors:EntryIntegerBehavior />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding ReleaseYearValidationCommand}" />
+                </Entry.Behaviors>
+            </Entry>
+            <Label Text="{Binding ReleaseYear.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Cylinders"></Label>
+            <Picker ItemsSource="{Binding Cylinders}"
+                    ItemDisplayBinding="{Binding .}"
+                    SelectedItem="{Binding NumberOfCylinders.Value}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                    Command="{Binding CylindersIndexChangedCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+            <Label Text="{Binding NumberOfCylinders.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Button Text="Submit" Command="{Binding SubmitCommand}" WidthRequest="250"/>
+        </VerticalStackLayout>
+        
+  </StackLayout>
+  
+</ContentPage>

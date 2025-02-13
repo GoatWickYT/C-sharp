@@ -37,6 +37,16 @@ public partial class MotorcycleListComponent : ContentView
 
     private async Task OnDeleteAsync()
     {
-        var result = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure?", "Yes", "No");
+        var delete = await Application.Current.MainPage.DisplayAlert("Delete", "Are you sure?", "Yes", "No");
+        if (!delete)
+        {
+            return;
+        }
+        ShellNavigationQueryParameters navigationQueryParameter = new ShellNavigationQueryParameters
+        {
+            {"Id", this.Motorcycle.Id }
+        };
+        Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(MotorcycleListView.Name, navigationQueryParameter);
     }
 }

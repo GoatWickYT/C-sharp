@@ -101,7 +101,7 @@ public partial class CreateOrEditMotorcycleViewModel(
         this.ReleaseYear.Validate();
         this.CylindersNumber.Validate();
 
-        return this.Manufacturer?.IsValid ?? false &&
+        return (this.Manufacturer?.IsValid ?? false) &&
                this.Model.IsValid &&
                this.Cubic.IsValid &&
                this.ReleaseYear.IsValid &&

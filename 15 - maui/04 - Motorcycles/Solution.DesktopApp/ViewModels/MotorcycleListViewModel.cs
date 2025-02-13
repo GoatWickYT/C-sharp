@@ -1,10 +1,7 @@
-﻿
-using System.Runtime.CompilerServices;
-
-namespace Solution.DesktopApp.ViewModels;
+﻿namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
-public partial class MotorcycleListViewModel(IMotorcycleService motorcycleService)
+public partial class MotorcycleListViewModel(IMotorcycleService motorcycleService) : MotorcycleModel(), IQueryAttributable
 {
     #region life cycle commands
 
@@ -15,7 +12,11 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
 
     public IAsyncRelayCommand PreviousPageCommand => new AsyncRelayCommand(PreviousPage);
 
+    public IAsyncRelayCommand FirstPageCommand => new AsyncRelayCommand(FirstPage);
+
     public IAsyncRelayCommand NextPageCommand => new AsyncRelayCommand(NextPage);
+
+    public IAsyncRelayCommand LastPageCommand => new AsyncRelayCommand(LastPage);
 
     [ObservableProperty]
     private ObservableCollection<MotorcycleModel> motorcycles;
@@ -29,17 +30,26 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
     [ObservableProperty]
     private bool nextButtonEnabled = false;
 
+    [ObservableProperty]
+    private bool lastButtonEnabled = false;
+
+    [ObservableProperty]
+    private bool firstButtonEnabled = false;
+
+    private int maxPageNumber;
 
     private int page = 1;
 
     private async Task OnAppearingAsync()
     {
+        maxPageNumber = await motorcycleService.GetMaxPageNumberAsync();
         await LoadMotorcycles();
     }
 
     private async Task OnDisappearingAsync()
     { }
 
+    #region Page Buttons
     private async Task PreviousPage()
     {
         if (page > 1)
@@ -49,13 +59,17 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
             await LoadMotorcycles();
             return;
         }
+    }
 
-        
+    private async Task FirstPage()
+    {
+        page = 1;
+        PageNumber = $"page\n{page}";
+        await LoadMotorcycles();
     }
 
     private async Task NextPage()
     {
-        int maxPageNumber = await motorcycleService.GetMaxPageNumberAsync();
         if (maxPageNumber < page + 1)
         {
             return;
@@ -66,8 +80,21 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         await LoadMotorcycles();
     }
 
+    private async Task LastPage()
+    {
+        LastButtonEnabled = false;
+        page = await motorcycleService.GetMaxPageNumberAsync();
+        PageNumber = $"page\n{page}";
+
+        await LoadMotorcycles();
+    }
+
+    #endregion
+
     private async Task LoadMotorcycles()
     {
+
+
         var result = await motorcycleService.GetPagedAsync(page);
 
         if (result.IsError)
@@ -77,9 +104,29 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         }
         var message = result.IsError ? result.FirstError.Description : "Done";
 
-        NextButtonEnabled = page < await motorcycleService.GetMaxPageNumberAsync();
-        PreviousButtonEnabled = page > 1;
+        await EnableButtons();
 
         Motorcycles = new ObservableCollection<MotorcycleModel>(result.Value);
+    }
+
+    private async Task EnableButtons()
+    {
+        LastButtonEnabled = page != maxPageNumber;
+        FirstButtonEnabled = page != 1;
+        NextButtonEnabled = page < await motorcycleService.GetMaxPageNumberAsync();
+        PreviousButtonEnabled = page > 1;
+    }
+
+    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        bool hasValue = query.TryGetValue("Id", out object result);
+
+        if (!hasValue)
+        {
+            return;
+        }
+        await motorcycleService.DeleteAsync(result.ToString());
+        await Application.Current.MainPage.DisplayAlert("Success", "Motorcycle deleted!", "Ok");
+        await LoadMotorcycles();
     }
 }
