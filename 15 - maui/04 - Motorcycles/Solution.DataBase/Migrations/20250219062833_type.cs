@@ -48,6 +48,37 @@ namespace Solution.Database.Migrations
                 principalTable: "Type",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+
+            var query = @$"
+                insert into
+                    [Type]
+                    ([Name])
+                values
+                    ('Chopper'),
+                    ('Crusier'),
+                    ('Classic'),
+                    ('Veteran'),
+                    ('Cross'),
+                    ('Pitpike'),
+                    ('Enduro'),
+                    ('Kids Bike'),
+                    ('Sport'),
+                    ('Quad'),
+                    ('ATV'),
+                    ('RUV'),
+                    ('SSV'),
+                    ('UTV'),
+                    ('Scooter'),
+                    ('Moped'),
+                    ('Supermoto'),
+                    ('Trial'),
+                    ('Trike'),
+                    ('Tour'),
+                    ('Naked'),
+                    ('Sport Tour')
+            ";
+
+            migrationBuilder.Sql(query);
         }
 
         /// <inheritdoc />
