@@ -2,7 +2,7 @@
 
 public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
 {
-    private int ROW_COUNT = 5;
+    private int ROW_COUNT = 10;
 
     public async Task<ErrorOr<MotorcycleModel>> CreateAsync(MotorcycleModel model)
     {
