@@ -1,0 +1,1 @@
+when adding a new foreign key you first set it to a nullable property then fill it up and then remove the nullability
