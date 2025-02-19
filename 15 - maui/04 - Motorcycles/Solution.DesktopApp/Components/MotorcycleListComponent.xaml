@@ -17,6 +17,8 @@
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="60" />
             </Grid.ColumnDefinitions>
@@ -30,28 +32,33 @@
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="3"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.ReleaseYear.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Type.Value.Name , Source={x:Reference this}}"
                    Grid.Column="4"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="5"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.Cubic.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.ReleaseYear.Value , Source={x:Reference this}}"
                    Grid.Column="6"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="7"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.CylindersNumber.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Cubic.Value , Source={x:Reference this}}"
                    Grid.Column="8"
-                   Style="{StaticResource TableDataText}" />
+                   Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="9"
                      BackgroundColor="Black" />
-            <ImageButton Grid.Column="10"
+            <Label Text="{Binding Motorcycle.CylindersNumber.Value , Source={x:Reference this}}"
+                   Grid.Column="10"
+                   Style="{StaticResource TableDataText}" />
+            <BoxView Grid.Column="11"
+                     BackgroundColor="Black" />
+            <ImageButton Grid.Column="12"
                          Source="edit.png"
                          BackgroundColor="Transparent"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Command="{Binding EditCommand , Source={x:Reference this}}"/>
-            <ImageButton Grid.Column="11"
+            <ImageButton Grid.Column="13"
                          Source="delete.png"
                          BackgroundColor="Transparent"
                          VerticalOptions="Center"

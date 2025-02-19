@@ -32,9 +32,11 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
     {
         var result = await dbContext.Motorcycles.AsNoTracking()
                                                 .Include(x => x.Manufacturer)
+                                                .Include(X => X.Type)
                                                 .Where(x => x.PublicId == model.Id)
                                                 .ExecuteUpdateAsync(x => x.SetProperty(p => p.PublicId, model.Id)
                                                                           .SetProperty(p => p.ManufacturerId, model.Manufacturer.Value.Id)
+                                                                          .SetProperty(p => p.TypeId, model.Type.Value.Id)
                                                                           .SetProperty(p => p.Model, model.Model.Value)
                                                                           .SetProperty(p => p.Cubic, model.Cubic.Value)
                                                                           .SetProperty(p => p.ReleaseYear, model.ReleaseYear.Value)
@@ -47,6 +49,7 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
     {
         var result = await dbContext.Motorcycles.AsNoTracking()
                                                 .Include(x => x.Manufacturer)
+                                                .Include(X => X.Type)
                                                 .Where(x => x.PublicId == id)
                                                 .ExecuteDeleteAsync();
 
@@ -69,6 +72,7 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
     public async Task<ErrorOr<List<MotorcycleModel>>> GetAllAsync() => 
         await dbContext.Motorcycles.AsNoTracking()
                            .Include(x => x.Manufacturer)
+                           .Include(X => X.Type)
                            .Select(x => new MotorcycleModel(x))
                            .ToListAsync();
 
@@ -78,6 +82,7 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
 
         return await dbContext.Motorcycles.AsNoTracking()
                            .Include(x => x.Manufacturer)
+                           .Include(X => X.Type)
                            .Skip(page * ROW_COUNT)
                            .Take(ROW_COUNT)
                            .Select(x => new MotorcycleModel(x))

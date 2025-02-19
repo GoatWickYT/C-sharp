@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.Design;
-
-namespace Solution.Database.Entities;
+﻿namespace Solution.Database.Entities;
 
 [Table("Motorcycle")]
 public class MotorcycleEntity
