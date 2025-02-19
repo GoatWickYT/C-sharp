@@ -39,6 +39,20 @@
         </VerticalStackLayout>
 
         <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Label Text="Type"></Label>
+            <Picker ItemsSource="{Binding Types}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding Type.Value}">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                Command="{Binding TypeIndexChangedCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+            <Label Text="{Binding Type.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                   Style="{StaticResource ValidationErrorLabelStyle}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
             <Label Text="Model" Style="{StaticResource InputLabel}"></Label>
             <Entry Text="{Binding Model.Value}">
                 <Entry.Behaviors>

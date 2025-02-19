@@ -16,7 +16,7 @@ public class TypeModel : IObjectValidator<uint>
         Name = name;
     }
 
-    public TypeModel(ManufacturerEntity entity)
+    public TypeModel(TypeEntity entity)
     {
         if (entity is null)
         {
