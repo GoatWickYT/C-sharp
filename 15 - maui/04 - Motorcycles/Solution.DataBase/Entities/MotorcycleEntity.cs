@@ -28,6 +28,9 @@ public class MotorcycleEntity
 
     [ForeignKey("Manufacturer")]
     public uint ManufacturerId { get; set; }
-
     public virtual ManufacturerEntity Manufacturer { get; set; }
+
+    [ForeignKey("Type")]
+    public uint TypeId { get; set; }
+    public virtual TypeEntity Type { get; set; }
 }
