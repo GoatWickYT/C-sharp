@@ -18,6 +18,8 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
 
     public IAsyncRelayCommand LastPageCommand => new AsyncRelayCommand(LastPage);
 
+    public IAsyncRelayCommand DeleteCommand => new AsyncRelayCommand<string>((id) => OnDeleteAsync(id));
+
     [ObservableProperty]
     private ObservableCollection<MotorcycleModel> motorcycles;
 
@@ -43,7 +45,7 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
     private async Task OnAppearingAsync()
     {
         maxPageNumber = await motorcycleService.GetMaxPageNumberAsync();
-        await LoadMotorcycles();
+        await LoadMotorcyclesAsync();
     }
 
     private async Task OnDisappearingAsync()
@@ -56,7 +58,7 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         {
             page--;
             PageNumber = $"page\n{page}";
-            await LoadMotorcycles();
+            await LoadMotorcyclesAsync();
             return;
         }
     }
@@ -65,7 +67,7 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
     {
         page = 1;
         PageNumber = $"page\n{page}";
-        await LoadMotorcycles();
+        await LoadMotorcyclesAsync();
     }
 
     private async Task NextPage()
@@ -77,7 +79,7 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         page++;
         PageNumber = $"page\n{page}";
 
-        await LoadMotorcycles();
+        await LoadMotorcyclesAsync();
     }
 
     private async Task LastPage()
@@ -86,12 +88,32 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         page = await motorcycleService.GetMaxPageNumberAsync();
         PageNumber = $"page\n{page}";
 
-        await LoadMotorcycles();
+        await LoadMotorcyclesAsync();
     }
 
     #endregion
 
-    private async Task LoadMotorcycles()
+    private async Task OnDeleteAsync(string? id)
+    {
+        var result = await motorcycleService.DeleteAsync(id);
+
+        var message = result.IsError ? result.FirstError.Description : "Motorcycle deleted";
+        var title = result.IsError ? "Error" : "Success";
+
+        if (!result.IsError)
+        {
+            var motorcycle = motorcycles.SingleOrDefault(x => x.Id == id);
+            motorcycles.Remove(motorcycle);
+
+            if (motorcycles.Count == 0)
+            {
+                await LoadMotorcyclesAsync();
+            }
+        }
+        await Application.Current.MainPage.DisplayAlert(title, message, "Ok");
+    }
+
+    private async Task LoadMotorcyclesAsync()
     {
 
 
@@ -104,12 +126,12 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         }
         var message = result.IsError ? result.FirstError.Description : "Done";
 
-        await EnableButtons();
+        await EnableButtonsAsync();
 
         Motorcycles = new ObservableCollection<MotorcycleModel>(result.Value);
     }
 
-    private async Task EnableButtons()
+    private async Task EnableButtonsAsync()
     {
         LastButtonEnabled = page != maxPageNumber;
         FirstButtonEnabled = page != 1;
@@ -127,6 +149,6 @@ public partial class MotorcycleListViewModel(IMotorcycleService motorcycleServic
         }
         await motorcycleService.DeleteAsync(result.ToString());
         await Application.Current.MainPage.DisplayAlert("Success", "Motorcycle deleted!", "Ok");
-        await LoadMotorcycles();
+        await LoadMotorcyclesAsync();
     }
 }

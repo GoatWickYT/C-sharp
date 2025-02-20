@@ -63,7 +63,8 @@
                          BackgroundColor="Transparent"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
-                         Command="{Binding DeleteCommand , Source={x:Reference this}}"/>
+                         Command="{Binding DeleteCommand , Source={x:Reference this}}"
+                         CommandParameter="{Binding Motorcycle.Id , Source={x:Reference this}}"/>
         </Grid>
     </Border>
 

@@ -36,7 +36,8 @@
                                 <ColumnDefinition Width="2*" />
                                 <ColumnDefinition Width="2*" />
                                 <ColumnDefinition Width="2*" />
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
                             </Grid.ColumnDefinitions>
                             <Label Text="Manufacturer"
                                    Grid.Column="0"
@@ -58,6 +59,8 @@
                                    Style="{StaticResource TableHeaderTitle}"/>
                             <Label Grid.Column="6"
                                    Style="{StaticResource TableHeaderTitle}"/>
+                            <Label Grid.Column="7"
+                                   Style="{StaticResource TableHeaderTitle}"/>
                         </Grid>
                     </Border>
                 </CollectionView.Header>
@@ -66,7 +69,9 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:MotorcycleModel">
-                        <components:MotorcycleListComponent Motorcycle="{Binding .}" />
+                        <components:MotorcycleListComponent Motorcycle="{Binding .}"
+                                                            DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MotorcycleListViewModel}}, Path=DeleteCommand}"
+                                                            CommandParameter="{Binding Id}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>
