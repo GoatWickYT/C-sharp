@@ -4,6 +4,10 @@ public partial class MotorcycleModel
 {
     public string Id { get; set; }
 
+    public string ImageId { get; set; }
+
+    public string WebContentLink { get; set; }
+
     public ValidatableObject<ManufacturerModel> Manufacturer { get; set; }
 
     public ValidatableObject<TypeModel> Type { get; set; }
@@ -37,6 +41,8 @@ public partial class MotorcycleModel
         this.Cubic.Value = entity.Cubic;
         this.ReleaseYear.Value = entity.ReleaseYear;
         this.CylindersNumber.Value = entity.Cylinders;
+        this.ImageId = entity.ImageId;
+        this.WebContentLink = entity.WebContentLink;
     }
 
     public MotorcycleEntity ToEntity()
@@ -49,7 +55,9 @@ public partial class MotorcycleModel
             Model = Model.Value,
             Cubic = Cubic.Value ?? 0,
             ReleaseYear = ReleaseYear.Value ?? 0,
-            Cylinders = CylindersNumber.Value ?? 0
+            Cylinders = CylindersNumber.Value ?? 0,
+            ImageId = ImageId,
+            WebContentLink = WebContentLink
         };
     }
 
@@ -62,6 +70,8 @@ public partial class MotorcycleModel
         entity.Cubic = Cubic.Value ?? 0;
         entity.ReleaseYear = ReleaseYear.Value ?? 0;
         entity.Cylinders = CylindersNumber.Value ?? 0;
+        entity.ImageId = ImageId;
+        entity.WebContentLink = WebContentLink;
     }
 
     private void AddValidators()

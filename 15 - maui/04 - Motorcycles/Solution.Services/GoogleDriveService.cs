@@ -1,8 +1,8 @@
-﻿namespace Solution.Services;
+﻿namespace Solution.Services.Services;
 
 public class GoogleDriveService(GoogleDriveSettings googleDriveSettings) : IGoogleDriveService
 {
-    public async Task<ErrorOr<string>> UploadFileAsync(FileResult file)
+    public async Task<ErrorOr<ImageUploadResponse>> UploadFileAsync(FileResult file)
     {
         var service = CreateGoogleDriveService();
 
@@ -22,7 +22,7 @@ public class GoogleDriveService(GoogleDriveSettings googleDriveSettings) : IGoog
         var mimeType = GetMimeType(file.ContentType);
 
         var response = service.Files.Create(fileMetaData, stream, file.ContentType);
-        response.Fields = "id,webViewLink";
+        response.Fields = "id,webContentLink";
         await response.UploadAsync();
 
         if (response?.ResponseBody?.Id is null)
@@ -36,7 +36,11 @@ public class GoogleDriveService(GoogleDriveSettings googleDriveSettings) : IGoog
         await service.Permissions.Create(permission, uploadedFile.Id)
                                  .ExecuteAsync();
 
-        return uploadedFile.Id;
+        return new ImageUploadResponse
+        {
+            Id = uploadedFile.Id,
+            WebContentLink = uploadedFile.WebContentLink.Replace("&export=download", "")
+        };
     }
 
     public async Task<ErrorOr<byte[]>> DownloadFileAsync(string fileId)
@@ -53,6 +57,15 @@ public class GoogleDriveService(GoogleDriveSettings googleDriveSettings) : IGoog
         await response.DownloadAsync(stream);
 
         return stream.ToArray();
+    }
+
+    public ErrorOr<Success> DeleteFile(string fileId)
+    {
+        var service = CreateGoogleDriveService();
+
+        service.Files.Delete(fileId);
+
+        return Result.Success;
     }
 
     private DriveService CreateGoogleDriveService()

@@ -3,8 +3,8 @@
 [ObservableObject]
 public partial class CreateOrEditMotorcycleViewModel(
     AppDbContext dbContext,
-    IMotorcycleService motorcycleService/*,
-    IGoogleDriveService googleDriveService*/) : MotorcycleModel(), IQueryAttributable
+    IMotorcycleService motorcycleService,
+    IGoogleDriveService googleDriveService) : MotorcycleModel(), IQueryAttributable
 {
     #region life cycle commands
 
@@ -27,6 +27,8 @@ public partial class CreateOrEditMotorcycleViewModel(
 
     public IAsyncRelayCommand SubmitCommand => new AsyncRelayCommand(OnSubmitAsync);
 
+    public IAsyncRelayCommand ImageSelectCommand => new AsyncRelayCommand(OnImageSelectAsync);
+
     private delegate Task ButtonActionDelegate();
     private ButtonActionDelegate asyncButtonAction;
 
@@ -41,6 +43,11 @@ public partial class CreateOrEditMotorcycleViewModel(
 
     [ObservableProperty]
     private IList<uint> cylinders = [1, 2, 3, 4, 6, 8];
+
+    [ObservableProperty]
+    private ImageSource image;
+
+    private FileResult selectedFile = null;
 
     private async Task OnAppearingAsync()
     { }
@@ -57,6 +64,8 @@ public partial class CreateOrEditMotorcycleViewModel(
             await Application.Current!.MainPage.DisplayAlert("Alert", "All fields must be filled", "Ok");
             return;
         }
+
+        await UploadImageAsync();
 
         ErrorOr<MotorcycleModel> serviceResponse = await motorcycleService.CreateAsync(this);
         string alertMessage = serviceResponse.IsError ? serviceResponse.FirstError.Description : "Motorcycle saved!";
@@ -78,6 +87,8 @@ public partial class CreateOrEditMotorcycleViewModel(
             return;
         }
 
+        await UploadImageAsync();
+
         var result = await motorcycleService.UpdateAsync(this);
 
         if (result.IsError)
@@ -86,6 +97,39 @@ public partial class CreateOrEditMotorcycleViewModel(
             return;
         }
         await Application.Current!.MainPage.DisplayAlert("Success", "Motorcycle updated!", "Ok");
+    }
+
+    private async Task OnImageSelectAsync()
+    {
+        selectedFile = await FilePicker.PickAsync(new PickOptions
+        {
+            FileTypes = FilePickerFileType.Images,
+            PickerTitle = "Please select the motorcycle image"
+        });
+
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var stream = await selectedFile.OpenReadAsync();
+        Image = ImageSource.FromStream(() => stream);
+    }
+
+    private async Task UploadImageAsync()
+    {
+        if (selectedFile is not null)
+        {
+            var imageUploadResult = await googleDriveService.UploadFileAsync(selectedFile);
+
+            var message = imageUploadResult.IsError ? imageUploadResult.FirstError.Description : "Motorcycle image uploaded";
+            var title = imageUploadResult.IsError ? "Error" : "Information";
+
+            await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+
+            this.ImageId = imageUploadResult.IsError ? null : imageUploadResult.Value.Id;
+            this.WebContentLink = imageUploadResult.IsError ? null : imageUploadResult.Value.WebContentLink;
+        }
     }
 
     private void ClearForm()
@@ -117,8 +161,8 @@ public partial class CreateOrEditMotorcycleViewModel(
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        await Task.Run(() => LoadManufacturers());
-        await Task.Run(() => LoadTypes());
+        await Task.Run(LoadManufacturers);
+        await Task.Run(LoadTypes);
 
         bool hasValue = query.TryGetValue("Motorcycle", out object result);
 

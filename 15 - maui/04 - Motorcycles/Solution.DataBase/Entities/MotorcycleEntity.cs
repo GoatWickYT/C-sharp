@@ -8,6 +8,12 @@ public class MotorcycleEntity
     public uint Id { get; set; }
 
     [StringLength(128)]
+    public string? ImageId { get; set; }
+
+    [StringLength(512)]
+    public string? WebContentLink { get; set; }
+
+    [StringLength(128)]
     [Required]
     public string PublicId { get; set; }
 

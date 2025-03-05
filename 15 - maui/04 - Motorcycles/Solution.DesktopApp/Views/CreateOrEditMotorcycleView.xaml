@@ -20,7 +20,31 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Orientation="Vertical">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+
+        <StackLayout Orientation="Vertical"
+                     Grid.Column="0"
+                     Margin="40">
+            <Border Stroke="{AppThemeBinding Light=Black, Dark=White}"
+                    StrokeThickness="2"
+                    Padding="0"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+                <Image Source="{Binding Image}"></Image>
+            </Border>
+            <Button Text="Select an Image"
+                    Command="{Binding ImageSelectCommand}">
+
+            </Button>
+        </StackLayout>
+
+        <StackLayout Orientation="Vertical"
+                 Grid.Column="1">
 
         <Label Text="{Binding Title}" Style="{StaticResource PageTitle}" />
 
@@ -100,10 +124,12 @@
             <Label Text="{Binding CylindersNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
-
+        
         <VerticalStackLayout Style="{StaticResource FormLineContainer}">
             <Button Text="Submit" Command="{Binding SubmitCommand}" WidthRequest="250"/>
         </VerticalStackLayout>
     </StackLayout>
+
+    </Grid>
 
 </ContentPage>
