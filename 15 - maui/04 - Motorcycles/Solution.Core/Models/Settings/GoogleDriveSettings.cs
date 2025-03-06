@@ -9,7 +9,4 @@ public class GoogleDriveSettings : JsonCredentialParameters
 
     [JsonPropertyName("root_folder_id")]
     public string RootFolderId { get; set; }
-
-    [JsonPropertyName("student_folder_id")]
-    public string StudentFolderId { get; set; }
 }

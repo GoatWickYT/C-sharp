@@ -40,7 +40,9 @@ public class MotorcycleService(AppDbContext dbContext) : IMotorcycleService
                                                                           .SetProperty(p => p.Model, model.Model.Value)
                                                                           .SetProperty(p => p.Cubic, model.Cubic.Value)
                                                                           .SetProperty(p => p.ReleaseYear, model.ReleaseYear.Value)
-                                                                          .SetProperty(p => p.Cylinders, model.CylindersNumber.Value));
+                                                                          .SetProperty(p => p.Cylinders, model.CylindersNumber.Value)
+                                                                          .SetProperty(p => p.WebContentLink, model.WebContentLink)
+                                                                          .SetProperty(p => p.ImageId, model.ImageId));
 
         return result > 0 ? Result.Success : Error.NotFound();
     }

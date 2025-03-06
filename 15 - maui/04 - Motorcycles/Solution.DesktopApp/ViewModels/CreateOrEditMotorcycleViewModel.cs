@@ -140,6 +140,10 @@ public partial class CreateOrEditMotorcycleViewModel(
         this.ReleaseYear.Value = null;
         this.CylindersNumber.Value = null;
         this.Type.Value = null;
+        this.Image = null;
+        this.ImageId = null;
+        this.WebContentLink = null;
+        this.selectedFile = null;
     }
 
     private bool IsFormValid()
@@ -182,6 +186,17 @@ public partial class CreateOrEditMotorcycleViewModel(
         this.ReleaseYear.Value = motorcycle.ReleaseYear.Value;
         this.CylindersNumber.Value = motorcycle.CylindersNumber.Value;
         this.Type.Value = motorcycle.Type.Value;
+
+        if (!string.IsNullOrEmpty(motorcycle.WebContentLink))
+        {
+            this.Image = new UriImageSource
+            {
+                Uri = new Uri(motorcycle.WebContentLink),
+                CachingEnabled = true,
+                CacheValidity = new TimeSpan(10, 0, 0, 0)
+            };
+        }
+
         asyncButtonAction = OnUpdateAsync;
         Title = "Update Motorcycle";
     }

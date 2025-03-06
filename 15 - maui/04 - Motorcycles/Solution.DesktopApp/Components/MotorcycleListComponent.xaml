@@ -11,6 +11,8 @@
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="3" />
                 <ColumnDefinition Width="2*" />
@@ -22,43 +24,53 @@
                 <ColumnDefinition Width="60" />
                 <ColumnDefinition Width="60" />
             </Grid.ColumnDefinitions>
-            <Label Text="{Binding Motorcycle.Manufacturer.Value.Name , Source={x:Reference this}}"
-                   Grid.Column="0"
-                   Style="{StaticResource TableDataText}"/>
+            <Image Grid.Column="0"
+                   HorizontalOptions="Center"
+                   WidthRequest="100">
+                <Image.Source>
+                    <UriImageSource Uri="{Binding Motorcycle.WebContentLink, Source={x:Reference this}}"
+                                    CacheValidity="10:00:00:00" />
+                </Image.Source>
+            </Image>
             <BoxView Grid.Column="1"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.Model.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Manufacturer.Value.Name , Source={x:Reference this}}"
                    Grid.Column="2"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="3"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.Type.Value.Name , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Model.Value , Source={x:Reference this}}"
                    Grid.Column="4"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="5"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.ReleaseYear.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Type.Value.Name , Source={x:Reference this}}"
                    Grid.Column="6"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="7"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.Cubic.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.ReleaseYear.Value , Source={x:Reference this}}"
                    Grid.Column="8"
                    Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="9"
                      BackgroundColor="Black" />
-            <Label Text="{Binding Motorcycle.CylindersNumber.Value , Source={x:Reference this}}"
+            <Label Text="{Binding Motorcycle.Cubic.Value , Source={x:Reference this}}"
                    Grid.Column="10"
-                   Style="{StaticResource TableDataText}" />
+                   Style="{StaticResource TableDataText}"/>
             <BoxView Grid.Column="11"
                      BackgroundColor="Black" />
-            <ImageButton Grid.Column="12"
+            <Label Text="{Binding Motorcycle.CylindersNumber.Value , Source={x:Reference this}}"
+                   Grid.Column="12"
+                   Style="{StaticResource TableDataText}" />
+            <BoxView Grid.Column="13"
+                     BackgroundColor="Black" />
+            <ImageButton Grid.Column="14"
                          Source="edit.png"
                          BackgroundColor="Transparent"
                          VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Command="{Binding EditCommand , Source={x:Reference this}}"/>
-            <ImageButton Grid.Column="13"
+            <ImageButton Grid.Column="15"
                          Source="delete.png"
                          BackgroundColor="Transparent"
                          VerticalOptions="Center"
